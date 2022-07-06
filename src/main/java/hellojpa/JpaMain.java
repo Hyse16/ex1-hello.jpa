@@ -16,16 +16,16 @@ public class JpaMain {
         tx.begin();
 
         try {
+            // 비영속
+            Member member = new Member();
+            member.setId(100L);
+            member.setName("hellojpa");
 
-           // Member findMember = em.find(Member.class, 1L);
-            List<Member> result = em.createQuery("select m from Member as m ", Member.class)
-                    .setFirstResult(5)
-                    .setMaxResults(8)
-                    .getResultList();
+            //영속
+            System.out.println("=======BEFORE=====");
+            em.persist(member);
+            System.out.println("=======AFTER======");
 
-            for (Member member : result) {
-                System.out.println("member.Name() = " + member.getName());
-            }
             
             tx.commit();
         } catch (Exception e) {
