@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static javax.persistence.CascadeType.*;
+
 
 @Entity
 
@@ -27,14 +29,21 @@ public class Member {
     @CollectionTable(name = "FAVORITE_FOOD",joinColumns =
         @JoinColumn(name = "MEMBER_ID")
     )
+
     @Column(name = "FOOD_NAME")
     private Set<String> favoriteFoods = new HashSet<>();
-
+/*
     @ElementCollection
     @CollectionTable(name = "ADDRESS",joinColumns =
         @JoinColumn(name = "MEMBER_ID")
-    )
+    )*/
+/*
     private List<Address> addressHistory = new ArrayList<>();
+*/
+    @OneToMany(cascade = ALL,orphanRemoval = true)
+    @JoinColumn(name = "MEMBER_ID")
+    private List<AddressEntity> addressHistory = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -67,11 +76,11 @@ public class Member {
         this.favoriteFoods = favoriteFoods;
     }
 
-    public List<Address> getAddressHistory() {
+    public List<AddressEntity> getAddressHistory() {
         return addressHistory;
     }
 
-    public void setAddressHistory(List<Address> addressHistory) {
+    public void setAddressHistory(List<AddressEntity> addressHistory) {
         this.addressHistory = addressHistory;
     }
 }
